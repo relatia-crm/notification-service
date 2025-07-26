@@ -53,7 +53,6 @@ public class OrganisationInfo {
         private String state;
         
         @NotBlank(message = "ZIP code is required")
-        @Pattern(regexp = "^\\d{5}(-\\d{4})?$", message = "Invalid ZIP code format")
         private String zip;
 
         // Lombok handles all getters and setters

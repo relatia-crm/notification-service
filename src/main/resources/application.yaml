@@ -3,7 +3,7 @@ spring:
     name: notification-service
 
   config:
-    import: configserver:http://localhost:8888
+    import: configserver:http://localhost:8071
 
   # H2 Database Configuration
   datasource:
@@ -62,8 +62,4 @@ management:
   endpoints:
     web:
       exposure:
-        #        include: h2-console,health,info,
         include: "*"
-  endpoint:
-    health:
-      show-details: always
