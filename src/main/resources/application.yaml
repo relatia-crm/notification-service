@@ -2,9 +2,6 @@ spring:
   application:
     name: notification-service
 
-  config:
-    import: configserver:http://localhost:8071
-
   # H2 Database Configuration
   datasource:
     url: jdbc:h2:mem:notificationdb
