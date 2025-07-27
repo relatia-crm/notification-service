@@ -24,18 +24,7 @@ spring:
   # JPA Configuration
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: none  # Disable Hibernate auto DDL
     show-sql: true
-    defer-datasource-initialization: true  # Ensure schema.sql runs before data.sql
-    properties:
-      hibernate:
-        format_sql: true
-        use_sql_comments: true
-        jdbc:
-          batch_size: 25
-        order_inserts: true
-        order_updates: true
 
   # SQL Initialization
   sql:
