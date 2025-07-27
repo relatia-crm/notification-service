@@ -57,9 +57,8 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.springframework.web: INFO
 
-# H2 Console Security (in development only)
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+info:
+  app:
+    name: notification-service
+    description: Notification Service Microservice
+    version: 1.0.0
