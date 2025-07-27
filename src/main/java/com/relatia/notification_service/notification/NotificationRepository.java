@@ -28,6 +28,14 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     List<Notification> findByRecipientIdAndReadFalseOrderByCreatedAtDesc(Long recipientId);
     
     /**
+     * Count all notifications for a specific recipient.
+     *
+     * @param recipientId the ID of the recipient
+     * @return count of notifications for the recipient
+     */
+    long countByRecipientId(Long recipientId);
+    
+    /**
      * Count all unread notifications for a specific recipient.
      *
      * @param recipientId the ID of the recipient

@@ -92,8 +92,8 @@ public class NotificationController {
     }
 
     @Operation(
-        summary = "Get notifications by recipient",
-        description = "Retrieves all notifications for a specific recipient"
+            summary = "Get notifications",
+            description = "Retrieves notifications with optional filtering by recipient and read status"
     )
     @ApiResponses({
         @ApiResponse(
@@ -102,29 +102,41 @@ public class NotificationController {
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = NotificationResponse.class)))
         )
     })
-    @GetMapping("/recipient/{recipientId}")
-    public List<NotificationResponse> getNotificationsByRecipient(
+    @GetMapping
+    public List<NotificationResponse> getNotifications(
             @Parameter(description = "ID of the recipient", required = true)
-            @PathVariable Long recipientId) {
+            @RequestParam("recipientId") Long recipientId,
+            @Parameter(description = "Filter unread notifications only")
+            @RequestParam(name = "unread", required = false, defaultValue = "false") boolean unread) {
+        
+        if (unread) {
+            return notificationService.getUnreadNotifications(recipientId);
+        }
         return notificationService.getNotificationsByRecipientId(recipientId);
     }
-
+    
     @Operation(
-        summary = "Get unread notifications",
-        description = "Retrieves all unread notifications for a specific recipient"
+        summary = "Get notification count",
+        description = "Retrieves count of notifications with optional filtering by recipient and read status"
     )
     @ApiResponses({
         @ApiResponse(
             responseCode = "200",
-            description = "Unread notifications retrieved successfully",
-            content = @Content(array = @ArraySchema(schema = @Schema(implementation = NotificationResponse.class)))
+            description = "Notification count retrieved successfully",
+            content = @Content(schema = @Schema(implementation = Long.class))
         )
     })
-    @GetMapping("/unread/{recipientId}")
-    public List<NotificationResponse> getUnreadNotifications(
+    @GetMapping("/count")
+    public long getNotificationCount(
             @Parameter(description = "ID of the recipient", required = true)
-            @PathVariable Long recipientId) {
-        return notificationService.getUnreadNotifications(recipientId);
+            @RequestParam("recipientId") Long recipientId,
+            @Parameter(description = "Count only unread notifications")
+            @RequestParam(name = "unread", required = false, defaultValue = "false") boolean unread) {
+        
+        if (unread) {
+            return notificationService.getUnreadCount(recipientId);
+        }
+        return notificationService.getCountByRecipientId(recipientId);
     }
 
     @Operation(
@@ -173,21 +185,4 @@ public class NotificationController {
         notificationService.deleteNotification(id);
     }
 
-    @Operation(
-        summary = "Get unread notification count",
-        description = "Retrieves the count of unread notifications for a specific recipient"
-    )
-    @ApiResponses({
-        @ApiResponse(
-            responseCode = "200",
-            description = "Unread count retrieved successfully",
-            content = @Content(schema = @Schema(implementation = Long.class))
-        )
-    })
-    @GetMapping("/unread-count/{recipientId}")
-    public long getUnreadCount(
-            @Parameter(description = "ID of the recipient", required = true)
-            @PathVariable Long recipientId) {
-        return notificationService.getUnreadCount(recipientId);
-    }
 }

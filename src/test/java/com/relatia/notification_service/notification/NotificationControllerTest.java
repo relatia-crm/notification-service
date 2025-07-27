@@ -90,11 +90,12 @@ class NotificationControllerTest {
     }
 
     @Test
-    void getNotificationsByRecipient_ShouldReturnNotifications() throws Exception {
+    void getNotifications_ShouldReturnNotifications() throws Exception {
         List<NotificationResponse> notifications = Arrays.asList(testNotification);
         when(notificationService.getNotificationsByRecipientId(123L)).thenReturn(notifications);
 
-        mockMvc.perform(get("/api/v1/notifications/recipient/123"))
+        mockMvc.perform(get("/api/v1/notifications")
+                .param("recipientId", "123"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].recipientId", is(123)));
@@ -107,7 +108,9 @@ class NotificationControllerTest {
         List<NotificationResponse> notifications = Arrays.asList(testNotification);
         when(notificationService.getUnreadNotifications(123L)).thenReturn(notifications);
 
-        mockMvc.perform(get("/api/v1/notifications/unread/123"))
+        mockMvc.perform(get("/api/v1/notifications")
+                .param("recipientId", "123")
+                .param("unread", "true"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].read", is(false)));
@@ -141,7 +144,9 @@ class NotificationControllerTest {
     void getUnreadCount_ShouldReturnCount() throws Exception {
         when(notificationService.getUnreadCount(123L)).thenReturn(5L);
 
-        mockMvc.perform(get("/api/v1/notifications/unread-count/123"))
+        mockMvc.perform(get("/api/v1/notifications/count")
+                .param("recipientId", "123")
+                .param("unread", "true"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("5"));
 

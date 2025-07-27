@@ -111,4 +111,14 @@ public class NotificationService {
     public long getUnreadCount(Long recipientId) {
         return notificationRepository.countByRecipientIdAndReadFalse(recipientId);
     }
+    
+    /**
+     * Get the count of notifications for a recipient.
+     *
+     * @param recipientId the recipient ID
+     * @return count of notifications for the recipient
+     */
+    public long getCountByRecipientId(Long recipientId) {
+        return notificationRepository.countByRecipientId(recipientId);
+    }
 }
