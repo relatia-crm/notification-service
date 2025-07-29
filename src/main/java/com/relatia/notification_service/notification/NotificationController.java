@@ -108,7 +108,6 @@ public class NotificationController {
             @RequestParam("recipientId") Long recipientId,
             @Parameter(description = "Filter unread notifications only")
             @RequestParam(name = "unread", required = false, defaultValue = "false") boolean unread) {
-        
         if (unread) {
             return notificationService.getUnreadNotifications(recipientId);
         }
